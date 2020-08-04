@@ -1,0 +1,7 @@
+<div class="gutter-example">
+    <div nz-row [nzGutter]="[40, 40]">
+      <div nz-col class="gutter-row" [nzSpan]="24 / colCount" *ngFor="let i of array">
+        <app-follow-card></app-follow-card>
+      </div>
+    </div>
+  </div>
