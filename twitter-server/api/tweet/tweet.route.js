@@ -2,14 +2,19 @@ let tweetController = require('./tweet.controller');
 let { asyncController } = require('../utils/utils.controller')
 
 module.exports = (app) => {
-    app.route('api/:userid')
-    .post(tweetController.CheckId, asyncController(tweetController.AddTweet));
 
-    app.route('api/:userid')
-    .get(tweetController.CheckId, asyncController(tweetController.GetTweets));
+    //not a delete route because tweets are not really being deleted
+    app.route('/api/tweet/:tweetId')
+    .put(asyncController(tweetController.DeleteTweet));
 
-    app.route('api/:tweetId')
-    .delete(tweetController.CheckId, asyncController(tweetController.DeleteTweet));
+    app.route('/api/tweet')
+    .post(asyncController(tweetController.CreateTweet));
+
+    app.route('/api/tweet/:user')
+    .get(asyncController(tweetController.GetTweets));
+
     
     
+    
+      
 }

@@ -14,42 +14,44 @@ module.exports.CheckId = async(req, res, next) => {
 }
 
 module.exports.GetTweets = async (req, res) => {
-    if (req.user == config.admin_user) {
-        try {
-            await Tweet.find({}, function(err, data){
-                res.json(data);
-            });
-        }
-        catch (err) {
-            console.error(err + " in GetTweets (admin)");
-            res.status(400);
-        }
-    }
-    else {
+    // if (req.user == config.admin_user) {
+    //     try {
+    //         await Tweet.find({}, function(err, data){
+    //             res.json(data);
+    //         });
+    //     }
+    //     catch (err) {
+    //         console.error(err + " in GetTweets (admin)");
+    //         res.status(400);
+    //     }
+    // }
+    // else {
         try {
             //find the user's properties and get the follow list
-            await User.findOne({user: req.user}), function(err, user){
-                followingArray = user.followingArray;
+            console.log(req.params.user)
+            await User.findOne({user: req.params.user}, function(err, userData){
+                followingArray = userData.followingArray;
                 //find all the tweets of people in the array or self
-                Tweet.find({ $or: [{ name: req.user }, { user: {$in: followingArray} } ]}, function (err, data){
+                Tweet.find({ $or: [{ user: req.params.user }, { user: {$in: followingArray} } ]}, function (err, data){
                     res.json(data);
                 });
-            }
+            });
         }
         catch (err) {
             console.error(err + " in GetTweets");
             res.status(400);
         }
     }
-}
+// }
 
-module.exports.AddTweet = async (req, res) => {
+module.exports.CreateTweet = async (req, res) => {
     try {
         let tweetInstance = new Tweet({
             user: req.body.user,
             userName: req.body.userName,
             content: req.body.content,
-            dateCreated: req.body.dateCreated,
+            dateCreated: Date.now(),
+            //dateCreated: req.body.dateCreated,
             isDeleted: false
         });
         await tweetInstance.save(function(err, data){
@@ -57,19 +59,19 @@ module.exports.AddTweet = async (req, res) => {
         });
     }
     catch (err) {
-        console.error(err + " in GetTweets (admin)");
+        console.error(err + " in CreateTweet");
         res.status(400);
     }
 }
 
 module.exports.DeleteTweet = async (req, res) => {
     try {
-        await Tweet.findByIdAndUpdate({ _id: req._id },{ isDeleted: true }, function(err, data){
+        await Tweet.findByIdAndUpdate({ _id: req.params.tweetId },{ isDeleted: true }, function(err, data){
             res.json(data);
         });
     }
     catch (err) {
-        console.error(err + " in GetTweets (admin)");
+        console.error(err + " in DeleteTweet");
         res.status(400);
     }
 }

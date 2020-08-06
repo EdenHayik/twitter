@@ -5,7 +5,7 @@ const config = require('../config/config');
 mongoose.Promise = Promise;
 
 //Initialize Mongoose
-module.exports.connect = () => mongoose.connect(config.mongo_url, {useNewUrlParser: true, useUnifiedTopology: true})
+module.exports.connect = () => mongoose.connect(config.mongo_url, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false})
 .then ((conn) => {
     //Enabling mongoose debug mode if required
     const debug = ((process.env.MONGO_DEBUG) === 'true');
