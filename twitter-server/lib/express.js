@@ -10,7 +10,7 @@ let glob = require('glob');
 module.exports.initServer = () => {
     app = express();
     initMiddlewares(app);
-    setServerFoldersLoc(app);
+    setServerFolderLoc(app);
     setViewEngine(app);
     return app;
 };
@@ -58,7 +58,7 @@ setViewEngine = (app) => {
 module.exports.initRoutes = (app) => {
     const paths = glob.sync("api/*/*.route.js");
     for (routePath of paths) {
-        let route = require(path.join(__dirname, '../../../', routePath));
+        let route = require(path.join(__dirname, '../', routePath));
         route(app);
     }
 }

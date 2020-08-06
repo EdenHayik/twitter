@@ -1,12 +1,11 @@
 let config = require('../../config/config');
 let User = require('../user/user.model');
 let mongoose = require('mongoose');
-const tweetRoute = require('./tweet.route');
 
 /**
  * Async middleware controller to catch all async controllers errors
  */
-module.exports.checkId = async(req, res, next) => {
+module.exports.CheckId = async(req, res, next) => {
     if (mongoose.Types.ObjectId.isValid(req.params.id)){
         return next();
     }

@@ -7,7 +7,7 @@ const tweetRoute = require('./tweet.route');
 /**
  * Async middleware controller to catch all async controllers errors
  */
-module.exports.checkId = async(req, res, next) => {
+module.exports.CheckId = async(req, res, next) => {
     if (mongoose.Types.ObjectId.isValid(req.params.id)){
         return next();
     }
@@ -31,7 +31,7 @@ module.exports.GetTweets = async (req, res) => {
             await User.findOne({user: req.user}), function(err, user){
                 followingArray = user.followingArray;
                 //find all the tweets of people in the array or self
-                await Tweet.find({ $or: [{ name: req.user }, { user: {$in: followingArray} } ]}, function (err, data){
+                Tweet.find({ $or: [{ name: req.user }, { user: {$in: followingArray} } ]}, function (err, data){
                     res.json(data);
                 });
             }

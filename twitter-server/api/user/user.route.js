@@ -3,6 +3,6 @@ let { asyncController } = require('../utils/utils.controller')
 
 module.exports = (app) => {
     app.route('api/:userid')
-    .get(tweetController.CheckId, asyncController(uesr.GetUsers));
+    .get(userController.CheckId, asyncController(userController.GetUsers));
     
 }
