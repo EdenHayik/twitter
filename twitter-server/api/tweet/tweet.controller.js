@@ -43,35 +43,34 @@ module.exports.GetTweets = async (req, res) => {
     }
 }
 
-module.exports.DeleteTweet = async (req, res) => {
-   
-    if (req.user == config.admin_user) {
-        try {
-             //admin can delete every tweet
-            await Tweet.findOneAndDelete({ _id: req._id }, function(err, data){
-                res.json(data);
-            });
-        }
-        catch (err) {
-            console.error(err + " in GetTweets (admin)");
-            res.status(400);
-        }
+module.exports.AddTweet = async (req, res) => {
+    try {
+        let tweetInstance = new Tweet({
+            user: req.body.user,
+            userName: req.body.userName,
+            content: req.body.content,
+            dateCreated: req.body.dateCreated,
+            isDeleted: false
+        });
+        await tweetInstance.save(function(err, data){
+            res.json(data);
+        });
     }
-    else {
-        try {
-            //kind of overkill because delete button will not appear on another user's tweets
-            await User.findOne({user: req.user}), function(err, user){
-                followingArray = user.followingArray;
-                //find all the tweets of people in the array or self
-                //TODO: how to get current username to filter the delete query
-                await Tweet.findByIdAndDelete({ _id: req._id}, function (err, data){
-                    res.json(data);
-                });
-            }
-        }
-        catch (err) {
-            console.error(err + " in GetTweets");
-            res.status(400);
-        }
+    catch (err) {
+        console.error(err + " in GetTweets (admin)");
+        res.status(400);
     }
 }
+
+module.exports.DeleteTweet = async (req, res) => {
+    try {
+        await Tweet.findByIdAndUpdate({ _id: req._id },{ isDeleted: true }, function(err, data){
+            res.json(data);
+        });
+    }
+    catch (err) {
+        console.error(err + " in GetTweets (admin)");
+        res.status(400);
+    }
+}
+
