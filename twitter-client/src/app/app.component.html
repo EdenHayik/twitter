@@ -12,17 +12,20 @@
       </a>
     </div>
     <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
-      <li nz-submenu nzOpen nzTitle="Twitter Feed" nzIcon="dashboard">
+      <li nz-submenu nzOpen nzTitle="Twitter" nzIcon="dashboard">
         <ul>
           <li nz-menu-item nzMatchRouter>
             <a routerLink="/tweet">Feed</a>
           </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/follow">Follow & Unfollow</a>
+          </li>
         </ul>
       </li>
-      <li nz-submenu nzOpen nzTitle="Follow" nzIcon="form">
+      <li nz-submenu nzOpen nzTitle="Settings" nzIcon="form">
         <ul>
           <li nz-menu-item nzMatchRouter>
-            <a routerLink="/follow">Follow List</a>
+            <a routerLink="/ChangeUser">Change User</a>
           </li>
         </ul>
       </li>

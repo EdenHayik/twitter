@@ -9,7 +9,19 @@ module.exports.GetUsers = async (req, res) => {
         });
     }
     catch (err) {
-        console.error(err + " in GetUsers (admin)");
+        console.error(err + " in GetUsers");
+        res.status(400);
+    }
+}
+
+module.exports.GetUserData = async (req, res) => {
+    try {
+        await User.find({user: req.params.user}, function(err, data){
+            res.json(data);
+        });
+    }
+    catch (err) {
+        console.error(err + " in GetUserData");
         res.status(400);
     }
 }

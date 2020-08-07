@@ -1,0 +1,10 @@
+
+<h2 *ngIf="registeredUser"> Hello {{registeredUser}}!</h2>
+<h2 *ngIf="!registeredUser"> No registered user at the moment</h2>
+<br/>
+<nz-input-group nzSearch nzSize="large" [nzAddOnAfter]="suffixButton">
+    <input type="text" nz-input placeholder="Enter new user" #userInput/>
+  </nz-input-group>
+  <ng-template #suffixButton>
+    <button nz-button nzType="primary" nzSize="large" (click)="registerNewUser(userInput.value)" nzSearch>Change</button>
+  </ng-template>

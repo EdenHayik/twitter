@@ -3,6 +3,8 @@ let express = require('express');
 let config = require('../config/config');
 let path = require('path');
 let glob = require('glob');
+let helmet = require('helmet');
+let cors = require('cors');
 
 /**
  * init the express server
@@ -12,6 +14,8 @@ module.exports.initServer = () => {
     initMiddlewares(app);
     setServerFolderLoc(app);
     setViewEngine(app);
+    app.use(cors());
+    app.use(helmet());
     return app;
 };
 
