@@ -31,8 +31,8 @@ module.exports.GetTweets = async (req, res) => {
             console.log(req.params.user)
             await User.findOne({user: req.params.user}, function(err, userData){
                 followingArray = userData.followingArray;
-                //find all the tweets of people in the array or self
-                Tweet.find({ $or: [{ user: req.params.user }, { user: {$in: followingArray} } ]}, function (err, data){
+                //find all the tweets of people in the array or self that are not deleted
+                Tweet.find({$and: [{isDeleted: false},{ $or: [{ user: req.params.user }, { user: {$in: followingArray} } ]}]}, function (err, data){
                     res.json(data);
                 });
             });
