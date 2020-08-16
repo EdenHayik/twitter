@@ -36,12 +36,15 @@ export class TweetService {
   }
 
   deleteTweet(tweetId, bodyData){
-    return this.http.put(`${this._serverBaseUrl}/${tweetId}`,bodyData).subscribe(
+    return this.http.put<Tweet>(`${this._serverBaseUrl}/${tweetId}`,bodyData).subscribe(
       res => {
-        //this._tweets.next()
+        const index = this._tweets.value.map(tweet => tweet._id).indexOf(res._id);
+        this._tweets.value.splice(index,1);
+        this._tweets.next(this._tweets.value);
       }
     )
   }
+
   // getAllTweets(userId){
   //   return this.http.get(`${serverBaseUrl}/${userId}`);
   // }
